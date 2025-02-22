@@ -8,7 +8,7 @@
 using namespace std; 
 
 // func recebe tamanho da matriz, a matriz A, o vetor d ( sistema Ax = d ), o chute inicial x0, o erro e o max de iterações
-map<int, vector<double>> gauss_jacobi(int n, const vector<vector<double>> &A, 
+pair<int,map<int, vector<double>>> gauss_jacobi(int n, const vector<vector<double>> &A, 
     const vector<double> &d, vector<double> &x0, double epsilon) {
     //Construção do map que receberá cada valor de x 
     map<int, vector<double>> map_jacobi;
@@ -47,5 +47,5 @@ map<int, vector<double>> gauss_jacobi(int n, const vector<vector<double>> &A,
         break; 
     x0 = x1; 
     }
-    return map_jacobi;
+    return pair(k,map_jacobi);
 }

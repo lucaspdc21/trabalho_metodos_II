@@ -5,29 +5,50 @@
 using namespace std;
 
 int main() {
-    // Definição do sistema linear Ax = d
+    
+    //TO-DO: Fazer uma função para receber a matriz A de entrada (recebe n, os valores de cada termo 
+    //de A, os valores de b, e a precisao )    
+
+
+    int n = 3; // tamanho da matriz, será um dado de entrada. 
+    // Definição do sistema linear Ax = b
     vector<vector<double>> A = {
-        {4, -1,  0},
-        {-1,  4, -1},
-        {0, -1,  3}
+        {5., 3.,  1.},
+        {5.,  6., 1.},
+        {1., 6.,  7.}
     };
 
-    vector<double> d = {15, 10, 10};  // Vetor de termos independentes
-    vector<double> x0 = {0, 0, 0};    // Chute inicial
+    vector<double> b = {1., 2., 3.};  // Vetor de termos independentes
+    vector<double> x0 = {0., 0., 0.};    // Chute inicial
     double epsilon = 0.000006;            // Critério de parada (erro máximo permitido)
-
+    // Calculo da matriz inversa:
+    vector<vector<double>> Ainv(n, vector<double>(n, 0.0)); 
+    for (int i = 0; i < n; i++){
+        vector<double> coluna(n, 0.0);
+        coluna[i] = 1;
+        pair<int,map<int, vector<double>>> resultadoinv = gauss_jacobi(n, A, coluna, x0, epsilon); 
+        int linha = 0;
+        for (const auto value : resultadoinv.second[resultadoinv.first]){
+            Ainv[i][linha] = value;
+            linha++; 
+            }   
+        }
+    
     // Chamando a função de Gauss-Jacobi
-    map<int, vector<double>> resultado = gauss_jacobi(3, A, d, x0, epsilon);
+    pair<int,map<int, vector<double>>> resultado = gauss_jacobi(3, A, b, x0, epsilon);
 
     // Exibindo os resultados
     cout << "Iterações do método de Gauss-Jacobi:\n";
-    for (const auto &par : resultado) {
-        cout << "Iteração " << par.first << ": ";
+    for (const auto &value : resultado.second) {
+        cout << "Iteração " <<  << ": ";
         for (double val : par.second) {
             cout << val << " ";
         }
         cout << endl;
     }
+    // Calculo da matriz inversa: 
+    
+
 
     return 0;
 }
