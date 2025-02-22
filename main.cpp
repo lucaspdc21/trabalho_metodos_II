@@ -1,6 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <map>
 #include "gaussjacobi.hpp"
 using namespace std;
 
