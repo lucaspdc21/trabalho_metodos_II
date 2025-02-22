@@ -3,7 +3,39 @@
 #include <map>
 #include <iomanip>
 #include "gaussjacobi.hpp"
+#include <fstream>
+#include <nlohmann/json.hpp> 
+
+using json = nlohmann::json;
 using namespace std;
+
+
+void imprimirJSON(const vector<vector<double>> &Ainv, const pair<int, map<int, vector<double>>> &resultado) {
+    json jsonResultado;
+    jsonResultado["Ainv"] = Ainv;
+
+    // Criar uma lista de objetos para as iterações
+    json iteracoesJson = json::array();
+    for (const auto &par : resultado.second) {
+        json iteracao;
+        iteracao["iteracao"] = par.first;
+        iteracao["valores"] = par.second;
+        iteracoesJson.push_back(iteracao);
+    }
+    
+    jsonResultado["iteracoes"] = iteracoesJson;
+    jsonResultado["deslocamentos"] = resultado.second.at(resultado.first); // Vetor final
+
+    // Salvar o JSON em um arquivo
+    ofstream arquivo("resultado.json");
+    if (arquivo.is_open()) {
+        arquivo << jsonResultado.dump(4); // Formata com indentação
+        arquivo.close();
+        cout << "\nArquivo 'resultado.json' salvo com sucesso.\n";
+    } else {
+        cerr << "Erro ao salvar o arquivo JSON.\n";
+    }
+}
 
 void receber_entrada(int &n, vector<vector<double>> &A, vector<double> &b, double &epsilon){
     cout << "Digite a quantidade de deslocamentos(d1,d2,...,dn): ";
@@ -100,6 +132,7 @@ int main() {
     
     cout << "\nVetor de deslocamentos {d}:\n";
     imprimirVetor(resultado.second[resultado.first]);
+    imprimirJSON(Ainv, resultado);
     
 
 

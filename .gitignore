@@ -1,0 +1,39 @@
+# Python virtual environment
+venv/
+.env/
+*.pyc
+*.pyo
+__pycache__/
+
+# FastAPI logs e dependências
+*.log
+*.sqlite3
+db.sqlite3
+
+# Arquivos compilados em C++
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.a
+*.lib
+*.pch
+*.pdb
+*.ilk
+
+# Build system
+/build/
+/CMakeFiles/
+CMakeCache.txt
+Makefile
+*.make
+*.ninja
+compile_commands.json
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
