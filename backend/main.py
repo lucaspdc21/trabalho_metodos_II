@@ -25,10 +25,21 @@ class Resultado(BaseModel):
     iteracoes: List[Iteracao]
 
 # endpoint que puxa os dados do json local e envia para o frontend
-@app.get("/dados")
+@app.get("/dados_seidel")
 def obter_dados():
     try:
-        with open("resultado.json", "r") as arquivo:
+        with open("resultado_seidel.json", "r") as arquivo:
+            dados = json.load(arquivo)
+        return dados
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Arquivo de dados não encontrado.")
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Erro ao ler o arquivo JSON.")
+    
+@app.get("/dados_jacobi")
+def obter_dados():
+    try:
+        with open("resultado_jacobi.json", "r") as arquivo:
             dados = json.load(arquivo)
         return dados
     except FileNotFoundError:

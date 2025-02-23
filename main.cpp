@@ -8,63 +8,123 @@
 
 using namespace std;
 
-void imprimirJSON(const vector<vector<double>> &Ainv, const pair<int, map<int, vector<double>>> &resultado) {
-    ofstream arquivo("backend/resultado.json");
-    if (!arquivo.is_open()) {
-        cerr << "Erro ao abrir o arquivo JSON para escrita.\n";
+void imprimirJSON(const vector<vector<double>> &AinvJacobi, const pair<int, map<int, vector<double>>> &resultadoJacobi,
+    const vector<vector<double>> &AinvSeidel, const pair<int, map<int, vector<double>>> &resultadoSeidel) {
+    // Gerar JSON para Gauss-Jacobi
+    ofstream arquivoJacobi("backend/resultado_jacobi.json");
+    if (!arquivoJacobi.is_open()) {
+        cerr << "Erro ao abrir o arquivo JSON para escrita (Gauss-Jacobi).\n";
         return;
     }
 
-    // Início do JSON
-    arquivo << "{\n";
+    // Início do JSON para Gauss-Jacobi
+    arquivoJacobi << "{\n";
 
-    // Matriz Inversa (Ainv)
-    arquivo << "  \"Ainv\": [\n";
-    for (size_t i = 0; i < Ainv.size(); ++i) {
-        arquivo << "    [";
-        for (size_t j = 0; j < Ainv[i].size(); ++j) {
-            arquivo << Ainv[i][j];
-            if (j < Ainv[i].size() - 1) arquivo << ", ";
+    // Matriz Inversa (Ainv) para Gauss-Jacobi
+    arquivoJacobi << "  \"Ainv\": [\n";
+    for (size_t i = 0; i < AinvJacobi.size(); ++i) {
+        arquivoJacobi << "    [";
+        for (size_t j = 0; j < AinvJacobi[i].size(); ++j) {
+            arquivoJacobi << AinvJacobi[i][j];
+            if (j < AinvJacobi[i].size() - 1) arquivoJacobi << ", ";
         }
-        arquivo << "]"; 
-        if (i < Ainv.size() - 1) arquivo << ",";
-        arquivo << "\n";
+        arquivoJacobi << "]"; 
+        if (i < AinvJacobi.size() - 1) arquivoJacobi << ",";
+        arquivoJacobi << "\n";
     }
-    arquivo << "  ],\n";
+    arquivoJacobi << "  ],\n";
 
-    // Iterações
-    arquivo << "  \"iteracoes\": [\n";
-    bool firstIter = true;
-    for (const auto &par : resultado.second) {
-        if (!firstIter) arquivo << ",\n";
-        firstIter = false;
-        
-        arquivo << "    {\n";
-        arquivo << "      \"iteracao\": " << par.first << ",\n";
-        arquivo << "      \"valores\": [";
+    // Iterações para Gauss-Jacobi
+    arquivoJacobi << "  \"iteracoes\": [\n";
+    bool firstIterJacobi = true;
+    for (const auto &par : resultadoJacobi.second) {
+        if (!firstIterJacobi) arquivoJacobi << ",\n";
+        firstIterJacobi = false;
+
+        arquivoJacobi << "    {\n";
+        arquivoJacobi << "      \"iteracao\": " << par.first << ",\n";
+        arquivoJacobi << "      \"valores\": [";
         for (size_t i = 0; i < par.second.size(); ++i) {
-            arquivo << par.second[i];
-            if (i < par.second.size() - 1) arquivo << ", ";
+            arquivoJacobi << par.second[i];
+            if (i < par.second.size() - 1) arquivoJacobi << ", ";
         }
-        arquivo << "]\n";
-        arquivo << "    }";
+        arquivoJacobi << "]\n";
+        arquivoJacobi << "    }";
     }
-    arquivo << "\n  ],\n";
+    arquivoJacobi << "\n  ],\n";
 
-    // Vetor de deslocamentos
-    arquivo << "  \"deslocamentos\": [";
-    const vector<double>& deslocamentos = resultado.second.at(resultado.first);
-    for (size_t i = 0; i < deslocamentos.size(); ++i) {
-        arquivo << deslocamentos[i];
-        if (i < deslocamentos.size() - 1) arquivo << ", ";
+    // Vetor de deslocamentos para Gauss-Jacobi
+    arquivoJacobi << "  \"deslocamentos\": [";
+    const vector<double>& deslocamentosJacobi = resultadoJacobi.second.at(resultadoJacobi.first);
+    for (size_t i = 0; i < deslocamentosJacobi.size(); ++i) {
+        arquivoJacobi << deslocamentosJacobi[i];
+        if (i < deslocamentosJacobi.size() - 1) arquivoJacobi << ", ";
     }
-    arquivo << "]\n";
+    arquivoJacobi << "]\n";
 
-    // Fechamento do JSON
-    arquivo << "}\n";
+    // Fechamento do JSON para Gauss-Jacobi
+    arquivoJacobi << "}\n";
 
-    arquivo.close();
-    cout << "\nArquivo 'resultado.json' salvo com sucesso.\n";
+    arquivoJacobi.close();
+    cout << "\nArquivo 'resultado_jacobi.json' salvo com sucesso.\n";
+
+    // Gerar JSON para Gauss-Seidel
+    ofstream arquivoSeidel("backend/resultado_seidel.json");
+    if (!arquivoSeidel.is_open()) {
+        cerr << "Erro ao abrir o arquivo JSON para escrita (Gauss-Seidel).\n";
+        return;
+    }
+
+    // Início do JSON para Gauss-Seidel
+    arquivoSeidel << "{\n";
+
+    // Matriz Inversa (Ainv) para Gauss-Seidel
+    arquivoSeidel << "  \"Ainv\": [\n";
+    for (size_t i = 0; i < AinvSeidel.size(); ++i) {
+        arquivoSeidel << "    [";
+        for (size_t j = 0; j < AinvSeidel[i].size(); ++j) {
+            arquivoSeidel << AinvSeidel[i][j];
+            if (j < AinvSeidel[i].size() - 1) arquivoSeidel << ", ";
+        }
+        arquivoSeidel << "]"; 
+        if (i < AinvSeidel.size() - 1) arquivoSeidel << ",";
+        arquivoSeidel << "\n";
+    }
+    arquivoSeidel << "  ],\n";
+
+    // Iterações para Gauss-Seidel
+    arquivoSeidel << "  \"iteracoes\": [\n";
+    bool firstIterSeidel = true;
+    for (const auto &par : resultadoSeidel.second) {
+        if (!firstIterSeidel) arquivoSeidel << ",\n";
+        firstIterSeidel = false;
+
+        arquivoSeidel << "    {\n";
+        arquivoSeidel << "      \"iteracao\": " << par.first << ",\n";
+        arquivoSeidel << "      \"valores\": [";
+        for (size_t i = 0; i < par.second.size(); ++i) {
+            arquivoSeidel << par.second[i];
+            if (i < par.second.size() - 1) arquivoSeidel << ", ";
+        }
+        arquivoSeidel << "]\n";
+        arquivoSeidel << "    }";
+    }
+    arquivoSeidel << "\n  ],\n";
+
+    // Vetor de deslocamentos para Gauss-Seidel
+    arquivoSeidel << "  \"deslocamentos\": [";
+    const vector<double>& deslocamentosSeidel = resultadoSeidel.second.at(resultadoSeidel.first);
+    for (size_t i = 0; i < deslocamentosSeidel.size(); ++i) {
+        arquivoSeidel << deslocamentosSeidel[i];
+        if (i < deslocamentosSeidel.size() - 1) arquivoSeidel << ", ";
+    }
+    arquivoSeidel << "]\n";
+
+    // Fechamento do JSON para Gauss-Seidel
+    arquivoSeidel << "}\n";
+
+    arquivoSeidel.close();
+    cout << "\nArquivo 'resultado_seidel.json' salvo com sucesso.\n";
 }
 
 
@@ -172,7 +232,7 @@ int main() {
         }
 
     // Exibindo a matriz inversa
-    cout << "\nMatriz Inversa A^-1:\n";
+    cout << "\nMatriz Inversa:\n";
     cout << "\nGauss-Jacobi: A^-1:\n";
     imprimirMatriz(AinvJacobi);
     cout << "\nGauss-Seidel: A^-1:\n";
@@ -196,9 +256,8 @@ int main() {
     
     cout << "\nVetor de deslocamentos {d}:\n";
     imprimirVetor(resultadoJacobi.second[resultadoJacobi.first]);
-    imprimirJSON(AinvJacobi, resultadoJacobi);
     imprimirVetor(resultadoSeidel.second[resultadoSeidel.first]);
-    imprimirJSON(AinvSeidel, resultadoSeidel);
+    imprimirJSON(AinvJacobi, resultadoJacobi ,AinvSeidel, resultadoSeidel);
     
 
 
