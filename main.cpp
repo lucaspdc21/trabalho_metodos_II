@@ -199,7 +199,7 @@ int main() {
         }
           cout << "Essa matriz não possuia garantia de convergência" << "\n";
           cout << "No entanto, após uma permutação das linhas, obtivemos uma matriz que tem garantia de convergência" << "\n";
-          //TO-DO: Imprimir essa matriz nova, não sei como vão querer mostrar para o usuário
+          imprimirMatriz(A); 
         }
         else{
             cout << "Essa matriz possui garantia de convergência";
@@ -208,6 +208,7 @@ int main() {
     vector<double> x0(n);
     for (int i = 0; i < n; ++i) // Chute inicial
         x0[i] = b[i] / A[i][i];
+    cout << "Chute inicial x0: ";
     imprimirVetor(x0);
     // Calculo da matriz inversa:
     //Jacobi:
@@ -255,7 +256,9 @@ int main() {
     }
     
     cout << "\nVetor de deslocamentos {d}:\n";
+    cout << "Gauss-Jacobi: \n"; 
     imprimirVetor(resultadoJacobi.second[resultadoJacobi.first]);
+    cout << "Gauss-Seidel: \n"; 
     imprimirVetor(resultadoSeidel.second[resultadoSeidel.first]);
     imprimirJSON(AinvJacobi, resultadoJacobi ,AinvSeidel, resultadoSeidel);
     
