@@ -4,9 +4,7 @@
 #include <iomanip>
 #include "gaussjacobi.hpp"
 #include <fstream>
-#include <nlohmann/json.hpp> 
 
-using json = nlohmann::json;
 using namespace std;
 
 void imprimirJSON(const vector<vector<double>> &Ainv, const pair<int, map<int, vector<double>>> &resultado) {
