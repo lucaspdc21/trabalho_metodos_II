@@ -30,3 +30,20 @@ bool matriz_diagonalmente_dominante(int n, const vector<vector<double>> &A) {
   }
   return true;
 }
+void torna_matriz_dominante(int n, vector<vector<double>> &A, vector<double> &b) {
+    double maior;
+    int imaior;
+    for (int i = 0; i < n; ++i) {
+        maior = fabs(A[i][i]);
+        imaior = i;
+        for (int j = 0; j < n; ++j) {
+            if (i != j && fabs(A[i][j]) > maior) {
+                maior = fabs(A[j][i]);
+                imaior = j;
+            }
+        }
+        if (imaior != i)
+            swap(A[i], A[imaior]);
+            swap(b[i], b[imaior]);
+    }
+}

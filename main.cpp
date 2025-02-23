@@ -123,19 +123,20 @@ int main() {
     // Recebendo a entrada do usuário
     receber_entrada(n, A, b, epsilon);
     if (!matriz_diagonalmente_dominante(n, A)){
-        cout << "Essa matriz não tem garantia de convergência para o critério das linhas" << "\n";
-        //TO-DO: Algoritmo que tenta inverter linhas para que a matriz A passe no critério de convergência
-        //TO-DO: Deixar isso daqui mais legal pro usuário(?)
-        cout << "Gostaria de tentar rodar mesmo assim? 0 para não, 1 para sim";
+        cout << "Essa matriz não tem garantia de convergência para o critério das linhas\n";
+        //TO-DO: Deixar isso daqui ainda mais legal pro usuário(?)
+        cout << "Gostaria de alterar a disposição das linhas? 0 para não, 1 para sim: ";
         int i;
         cin >> i; 
-        if (i == 0){
-            return NULL;
+        if (i == 1) {
+            torna_matriz_dominante(n, A, b);
+            cout << "Permutação realizada\n";
         }
-
     }
-    //TO-DO: Cálculo automático de chute inicial
-    vector<double> x0(n, 0.0);    // Chute inicial
+    vector<double> x0(n);
+    for (int i = 0; i < n; ++i) // Chute inicial
+        x0[i] = b[i] / A[i][i];
+    imprimirVetor(x0);
     // Calculo da matriz inversa:
     //Jacobi:
     vector<vector<double>> AinvJacobi(n, vector<double>(n, 0.0)); 
