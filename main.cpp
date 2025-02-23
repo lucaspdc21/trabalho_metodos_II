@@ -122,15 +122,27 @@ int main() {
 
     // Recebendo a entrada do usuário
     receber_entrada(n, A, b, epsilon);
-    if (!matriz_diagonalmente_dominante(n, A)){
-        cout << "Essa matriz não tem garantia de convergência para o critério das linhas\n";
-        //TO-DO: Deixar isso daqui ainda mais legal pro usuário(?)
-        cout << "Gostaria de alterar a disposição das linhas? 0 para não, 1 para sim: ";
-        int i;
-        cin >> i; 
-        if (i == 1) {
-            torna_matriz_dominante(n, A, b);
-            cout << "Permutação realizada\n";
+    cout << "Gostaria de checar o critério de convergência de linhas? 0 para não, 1 para sim." << "\n";
+    int check; 
+    cin >> check; 
+    if (check == 1){
+        cout << "Checando critério de convergência por linhas..." << "\n";
+        if (!matriz_diagonalmente_dominante(n, A)){
+            if (!tornar_diagonalmente_dominante(n, A)){
+            cout << "Essa matriz não tem garantia de convergência mesmo após tentativas de permutação das linhas" << "\n";
+            cout << "Gostaria de tentar rodar mesmo assim? 0 para não, 1 para sim";
+            int i;
+            cin >> i; 
+            if (i == 0){
+                return NULL;
+            }
+        }
+          cout << "Essa matriz não possuia garantia de convergência" << "\n";
+          cout << "No entanto, após uma permutação das linhas, obtivemos uma matriz que tem garantia de convergência" << "\n";
+          //TO-DO: Imprimir essa matriz nova, não sei como vão querer mostrar para o usuário
+        }
+        else{
+            cout << "Essa matriz possui garantia de convergência";
         }
     }
     vector<double> x0(n);
