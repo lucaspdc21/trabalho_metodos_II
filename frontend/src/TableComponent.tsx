@@ -1,28 +1,84 @@
 import { useEffect, useState } from "react";
-import { Table } from "antd";
+import { Flex, Table } from "antd";
 import axios from "axios";
 import styled from "styled-components";
 
-const TableWrapper = styled.div`
-  margin: 20px;
-  padding: 20px;
-  background-color: #f4f7fc;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+const TableWrapper = styled(Flex)`
+    margin: 20px;
+    padding: 20px;
+    background-color: #463d3d;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 20px;
 `;
 
-const MatrixContainer = styled.div`
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+const MatrixContainer = styled(Flex)`
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding-bottom: 40px;
+    
 `;
 
 const MatrixTitle = styled.h3`
   font-size: 18px;
   color: #333;
 `;
+const MatrixContent = styled(Flex)`
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 10px;
+  width: min-content;
+  
+`;
+
+const MatrixRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const MatrixValue = styled.span`
+    text-align: center;
+    height: 30px;
+    width: 70px;
+    font-size: 20px;
+    font-family: monospace;
+`;
+
+const LeftBracket = styled.div`
+    position: absolute;
+    left: -10px;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    border-left: 2px solid #333;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+    border-radius: 5px 0 0 5px;
+`;
+
+const RightBracket = styled.div`
+    position: absolute;
+    right: -10px;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    height: 100%;
+    border-right: 2px solid #333;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+    border-radius: 0 5px 5px 0;
+`;
+
 
 const TableComponent = () => {
     const [data, setData] = useState([]);
@@ -58,24 +114,26 @@ const TableComponent = () => {
     ];
 
     return (
-        <TableWrapper>
-            <h2>Iterações</h2>
-            <Table columns={columns} dataSource={data} loading={loading} />
-            <MatrixContainer>
-                <MatrixTitle>Matriz Inversa (Ainv)</MatrixTitle>
-                <pre>
+        <TableWrapper vertical>
+            <MatrixContainer vertical>
+                <MatrixTitle>Matriz Inversa</MatrixTitle>
+                <MatrixContent vertical>
+                    <LeftBracket />
+                    <RightBracket />
                     {Ainv.length > 0 &&
-                        Ainv.map((row, rowIndex) => (
-                            <div key={rowIndex}>
-                                {row.map((value, colIndex) => (
-                                    <span key={colIndex} style={{ marginRight: "10px" }}>
-                                        {value.toFixed(4)}
-                                    </span>
-                                ))}
-                            </div>
+                    Ainv.map((row, rowIndex) => (
+                        <MatrixRow key={rowIndex}>
+                        {row.map((value, colIndex) => (
+                            <MatrixValue key={colIndex}>
+                            {value.toFixed(2)}
+                            </MatrixValue>
                         ))}
-                </pre>
+                        </MatrixRow>
+                    ))}
+                </MatrixContent>
             </MatrixContainer>
+            <Flex style={{color: "white", fontFamily: "sans-serif", fontSize:"30px"}}>Iterações</Flex>
+            <Table columns={columns} dataSource={data} loading={loading} />
         </TableWrapper>
     );
 };

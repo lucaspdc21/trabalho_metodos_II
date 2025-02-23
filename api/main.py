@@ -6,6 +6,7 @@ import json
 
 app = FastAPI()
 
+# Configuração do CORS, exigido pelo frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  
@@ -23,6 +24,7 @@ class Resultado(BaseModel):
     deslocamentos: List[float]
     iteracoes: List[Iteracao]
 
+# endpoint que puxa os dados do json local e envia para o frontend
 @app.get("/dados")
 def obter_dados():
     try:
