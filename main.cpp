@@ -190,7 +190,7 @@ void check_explode ( vector<double> &vec,
     cout << "]\n";
     cout    << "Pelo método de "<< method;
     if (n_exp<=0)
-        cout    <<" ,o vetor não apresenta nenhum deslocamento que gere danos sérios ou problemas gigantescos.\n";
+        cout    <<",o vetor não apresenta nenhum deslocamento que gere danos sérios ou problemas gigantescos.\n";
     else
         cout    <<" ,o vetor apresenta "<< n_exp << " componente(s) de deslocamento que pode(m) gerar sérios danos.\n";
 }
