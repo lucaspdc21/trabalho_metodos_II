@@ -28,7 +28,7 @@ class Resultado(BaseModel):
 @app.get("/dados")
 def obter_dados():
     try:
-        with open("../resultado.json", "r") as arquivo:
+        with open("resultado.json", "r") as arquivo:
             dados = json.load(arquivo)
         return dados
     except FileNotFoundError:

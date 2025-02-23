@@ -27,7 +27,7 @@ void imprimirJSON(const vector<vector<double>> &Ainv, const pair<int, map<int, v
     jsonResultado["deslocamentos"] = resultado.second.at(resultado.first); // Vetor final
 
     // Salvar o JSON em um arquivo
-    ofstream arquivo("resultado.json");
+    ofstream arquivo("backend/resultado.json");
     if (arquivo.is_open()) {
         arquivo << jsonResultado.dump(4); // Formata com indentação
         arquivo.close();

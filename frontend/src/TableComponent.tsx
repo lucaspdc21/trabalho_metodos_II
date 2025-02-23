@@ -78,20 +78,26 @@ const RightBracket = styled.div`
     border-bottom: 2px solid #333;
     border-radius: 0 5px 5px 0;
 `;
+interface Iteracao {
+    iteracao: number;
+    valores: (number | string)[];
+}
+type Matrix = number[][];
 
 
 const TableComponent = () => {
     const [data, setData] = useState([]);
-    const [Ainv, setAinv] = useState([]);
+    const [Ainv, setAinv] = useState<Matrix>([]);
     const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         axios.get("http://127.0.0.1:8000/dados")
             .then((response) => {
                 const { Ainv, deslocamentos, iteracoes } = response.data;
-                
+                console.log(deslocamentos)
                 // Formatando os dados para exibição
-                const formattedData = iteracoes.map((item, index) => ({
+                const formattedData = iteracoes.map((item: Iteracao, index: number) => ({
                     key: index,
                     iteracao: item.iteracao,
                     valores: item.valores.join(", ")
@@ -121,9 +127,9 @@ const TableComponent = () => {
                     <LeftBracket />
                     <RightBracket />
                     {Ainv.length > 0 &&
-                    Ainv.map((row, rowIndex) => (
+                    Ainv.map((row: number[], rowIndex:number) => (
                         <MatrixRow key={rowIndex}>
-                        {row.map((value, colIndex) => (
+                        {row.map((value: number, colIndex:number) => (
                             <MatrixValue key={colIndex}>
                             {value.toFixed(2)}
                             </MatrixValue>
