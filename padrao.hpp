@@ -30,20 +30,28 @@ bool matriz_diagonalmente_dominante(int n, const vector<vector<double>> &A) {
   }
   return true;
 }
-void torna_matriz_dominante(int n, vector<vector<double>> &A, vector<double> &b) {
-    double maior;
-    int imaior;
-    for (int i = 0; i < n; ++i) {
-        maior = fabs(A[i][i]);
-        imaior = i;
-        for (int j = 0; j < n; ++j) {
-            if (i != j && fabs(A[i][j]) > maior) {
-                maior = fabs(A[j][i]);
-                imaior = j;
-            }
-        }
-        if (imaior != i)
-            swap(A[i], A[imaior]);
-            swap(b[i], b[imaior]);
-    }
+bool tornar_diagonalmente_dominante(int n, vector<vector<double>> &A) {
+  //Cria e inicializa um vetor que contém os índices de cada linha de A.
+  //Será usado para criar permutações de linhas e reorganizar a matriz, 
+  //Tentando torna-la dominante. 
+  //Ele começa, é claro, em ordem natural, {0, 1, 2, 3...}, 
+  //E depois será alterado pelo next_permutation. 
+  vector<int> indices(n);
+  for (int i = 0; i < n; ++i) indices[i] = i;
+  //Testando permutação:
+  do {
+      vector<vector<double>> B(n, vector<double>(n));
+      for (int i = 0; i < n; ++i) {
+        //Criando a matriz B que tem as linhas da Coluna A ordenadas em uma permutação aleatória 
+          B[i] = A[indices[i]]; 
+      }
+      if (matriz_diagonalmente_dominante(n, B)) {
+        //Se temos uma matriz que converge, retornamos
+          A = B;
+          return true;
+      }
+      //next permutation fornece uma permutação nova do vetor indices até não houverem mais permutações. 
+  } while (next_permutation(indices.begin(), indices.end()));
+  
+  return false;
 }
