@@ -3,6 +3,7 @@
 #include <map>
 #include <iomanip>
 #include "gaussjacobi.hpp"
+#include "gaussseidel.hpp"
 #include <fstream>
 
 using namespace std;
@@ -121,48 +122,60 @@ int main() {
 
     // Recebendo a entrada do usuário
     receber_entrada(n, A, b, epsilon);
+    if (!matriz_diagonalmente_dominante(n, A)){
+        cout << "Essa matriz não tem garantia de convergência para o critério das linhas" << "\n";
+        //TO-DO: Algoritmo que tenta inverter linhas para que a matriz A passe no critério de convergência
+        //TO-DO: Deixar isso daqui mais legal pro usuário(?)
+        cout << "Gostaria de tentar rodar mesmo assim? 0 para não, 1 para sim";
+        int i;
+        cin >> i; 
+        if (i == 0){
+            return NULL;
+        }
 
-
-    //int n = 3; // tamanho da matriz, será um dado de entrada. 
-    // Definição do sistema linear Ax = b
-    /*vector<vector<double>> A = {
-        {5., 3.,  1.},
-        {5.,  6., 1.},
-        {1., 6.,  7.}
-    };*/
-
-    //vector<double> b = {1., 2., 3.};  // Vetor de termos independentes
+    }
+    //TO-DO: Cálculo automático de chute inicial
     vector<double> x0(n, 0.0);    // Chute inicial
-    //double epsilon = 0.000006;            // Critério de parada (erro máximo permitido)
     // Calculo da matriz inversa:
-    vector<vector<double>> Ainv(n, vector<double>(n, 0.0)); 
+    //Jacobi:
+    vector<vector<double>> AinvJacobi(n, vector<double>(n, 0.0)); 
     for (int i = 0; i < n; i++){
-        vector<double> coluna(n, 0.0);
-        coluna[i] = 1;
-        pair<int,map<int, vector<double>>> resultadoinv = gauss_jacobi(n, A, coluna, x0, epsilon); 
-        int linha = 0;
+        vector<double> colunaJacobi(n, 0.0);
+        colunaJacobi[i] = 1;
+        pair<int,map<int, vector<double>>> resultadoinvJacobi = gauss_jacobi(n, A, colunaJacobi, x0, epsilon); 
         for (int j = 0; j < n; j++) {
-            Ainv[j][i] = resultadoinv.second[resultadoinv.first][j];
+            AinvJacobi[j][i] = resultadoinvJacobi.second[resultadoinvJacobi.first][j];
         }
     }
+    //Seidel:
+    vector<vector<double>> AinvSeidel(n, vector<double>(n, 0.0)); 
+    for (int i = 0; i < n; i++){
+        vector<double> colunaSeidel(n, 0.0);
+        colunaSeidel[i] = 1;
+        pair<int,map<int, vector<double>>> resultadoinvSeidel = gauss_seidel(n, A, colunaSeidel, x0, epsilon); 
+        for (int j = 0; j < n; j++){
+            AinvSeidel[j][i] = resultadoinvSeidel.second[resultadoinvSeidel.first][j];
+            }   
+        }
 
     // Exibindo a matriz inversa
     cout << "\nMatriz Inversa A^-1:\n";
-    imprimirMatriz(Ainv);
+    imprimirMatriz(AinvJacobi);
 
     // Chamando a função de Gauss-Jacobi
-    pair<int,map<int, vector<double>>> resultado = gauss_jacobi(n, A, b, x0, epsilon);
-
+    pair<int,map<int, vector<double>>> resultadoJacobi = gauss_jacobi(n, A, b, x0, epsilon);
+    // Chamando a função de Gauss-Seidel
+    pair<int,map<int, vector<double>>> resultadoSeidel = gauss_seidel(n, A, b, x0, epsilon);
     // Exibindo os resultados
     cout << "\nIterações do método de Gauss-Jacobi:\n";
-    for (const auto &par : resultado.second) {
+    for (const auto &par : resultadoJacobi.second) {
         cout << "Iteração " << par.first << ": ";
         imprimirVetor(par.second);
     }
     
     cout << "\nVetor de deslocamentos {d}:\n";
-    imprimirVetor(resultado.second[resultado.first]);
-    imprimirJSON(Ainv, resultado);
+    imprimirVetor(resultadoJacobi.second[resultadoJacobi.first]);
+    imprimirJSON(AinvSeidel, resultadoJacobi);
     
 
 
