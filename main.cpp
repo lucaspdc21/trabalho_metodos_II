@@ -161,7 +161,10 @@ int main() {
 
     // Exibindo a matriz inversa
     cout << "\nMatriz Inversa A^-1:\n";
+    cout << "\nGauss-Jacobi: A^-1:\n";
     imprimirMatriz(AinvJacobi);
+    cout << "\nGauss-Seidel: A^-1:\n";
+    imprimirMatriz(AinvSeidel); 
 
     // Chamando a função de Gauss-Jacobi
     pair<int,map<int, vector<double>>> resultadoJacobi = gauss_jacobi(n, A, b, x0, epsilon);
@@ -173,10 +176,17 @@ int main() {
         cout << "Iteração " << par.first << ": ";
         imprimirVetor(par.second);
     }
+    cout << "\nIterações do método de Gauss-Seidel:\n";
+    for (const auto &par : resultadoSeidel.second) {
+        cout << "Iteração " << par.first << ": ";
+        imprimirVetor(par.second);
+    }
     
     cout << "\nVetor de deslocamentos {d}:\n";
     imprimirVetor(resultadoJacobi.second[resultadoJacobi.first]);
-    imprimirJSON(AinvSeidel, resultadoJacobi);
+    imprimirJSON(AinvJacobi, resultadoJacobi);
+    imprimirVetor(resultadoSeidel.second[resultadoSeidel.first]);
+    imprimirJSON(AinvSeidel, resultadoSeidel);
     
 
 
