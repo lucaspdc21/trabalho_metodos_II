@@ -13,6 +13,7 @@ pair<int, map<int, vector<double>>> gauss_seidel(int n, const vector<vector<doub
                     soma -= A[i][j] * x0[j];
                 }
             }
+            //atualizando o x_k+1 no x0. Estamos reaproveitando o x0 a cada iteracao. 
             x0[i] = soma / A[i][i];
         }
         map_seidel.emplace(k, x0);
