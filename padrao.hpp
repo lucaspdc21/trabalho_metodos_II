@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <utility>
-#include <algorithms>
+#include <algorithm>
 #define MAX_ITER 1000
 using namespace std; 
 
