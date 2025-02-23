@@ -172,19 +172,27 @@ void imprimirVetor(const vector<double> &vetor) {
     }
     cout << endl;
 }
-pair<bool,int> check_explode (  vector<double> vec,
-                                double parameter=0.4){
-    bool check = false;
-    int n_comp = 0;
-    int iter = 0;
-    for (double n : vec){
+void check_explode ( vector<double> &vec,
+                      double parameter,
+                      string method){
+    int n_exp = 0;
+    cout << "[\n";
+    cout << fixed << setprecision(6);
+    for (double &n : vec){
         if (abs(n)>parameter){
-            check = true;
-            n_comp++;
+            cout << n << " : não passou,\n";
+            n_exp++;
         }
-        ++iter;
+        else{
+            cout << n << " : passou\n";
+        }
     }
-    return {check,n_comp};
+    cout << "]\n";
+    cout    << "Pelo método de "<< method;
+    if (n_exp<=0)
+        cout    <<" ,o vetor não apresenta nenhum deslocamento que gere danos sérios ou problemas gigantescos.\n";
+    else
+        cout    <<" ,o vetor apresenta "<< n_exp << " componente(s) de deslocamento que pode(m) gerar sérios danos.\n";
 }
 int main() {
     // Definição das variáveis preenchidas pelo usuário
@@ -267,32 +275,18 @@ int main() {
         cout << "Iteração " << par.first << ": ";
         imprimirVetor(par.second);
     }
-    
+    double tolerance = 0.4;
     cout << "\nVetor de deslocamentos {d}:\n";
     cout << "Gauss-Jacobi: \n"; 
     int n_j = resultadoJacobi.first;
     imprimirVetor(resultadoJacobi.second[resultadoJacobi.first]);
-    pair<bool,int> check_jacobi = check_explode(resultadoJacobi.second[n_j],0.4);
-    if (check_jacobi.first){
-        cout    << "Pelo método de Gauss-Jacobi, o vetor apresenta " 
-                << check_jacobi.second << " componente(s) de deslocamento que pode(m) gerar sérios danos"
-                << endl;
-    }
-    else{ 
-        cout    << "Pelo método de Gauss-Jacobi, o vetor apresenta não apresenta nenhum deslocamento que gere danos sérios ou problemas gigantescos";
-    }
-    cout << "Gauss-Seidel: \n"; 
+    vector<double> final_jacobi   = resultadoJacobi.second[n_j];
+    check_explode(final_jacobi,tolerance,"Gauss-Jacobi");
     int n_s = resultadoSeidel.first;
-    pair<bool,int> check_seidel = check_explode(resultadoSeidel.second[n_s],0.4);
+    cout << "Gauss-Seidel: \n"; 
+    vector<double> final_seidel    = resultadoSeidel.second[n_s];
     imprimirVetor(resultadoSeidel.second[resultadoSeidel.first]);
-    if (check_seidel.first){
-        cout    << "Pelo método de Gauss-Seidel, o vetor apresenta " 
-                << check_seidel.second << " componente(s) de deslocamento que pode(m) gerar sérios danos"
-                << endl;
-    }
-    else{
-        cout    << "Pelo método de Gauss-Seidel, o vetor apresenta não apresenta nenhum deslocamento que gere danos sérios ou problemas gigantescos";
-    }
+    check_explode(final_seidel,tolerance,"Gauss-Seidel");
     imprimirJSON(AinvJacobi, resultadoJacobi ,AinvSeidel, resultadoSeidel);
 
 
