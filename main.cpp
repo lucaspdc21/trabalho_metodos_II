@@ -3,7 +3,69 @@
 #include <map>
 #include <iomanip>
 #include "gaussjacobi.hpp"
+#include <fstream>
+
 using namespace std;
+
+void imprimirJSON(const vector<vector<double>> &Ainv, const pair<int, map<int, vector<double>>> &resultado) {
+    ofstream arquivo("backend/resultado.json");
+    if (!arquivo.is_open()) {
+        cerr << "Erro ao abrir o arquivo JSON para escrita.\n";
+        return;
+    }
+
+    // Início do JSON
+    arquivo << "{\n";
+
+    // Matriz Inversa (Ainv)
+    arquivo << "  \"Ainv\": [\n";
+    for (size_t i = 0; i < Ainv.size(); ++i) {
+        arquivo << "    [";
+        for (size_t j = 0; j < Ainv[i].size(); ++j) {
+            arquivo << Ainv[i][j];
+            if (j < Ainv[i].size() - 1) arquivo << ", ";
+        }
+        arquivo << "]"; 
+        if (i < Ainv.size() - 1) arquivo << ",";
+        arquivo << "\n";
+    }
+    arquivo << "  ],\n";
+
+    // Iterações
+    arquivo << "  \"iteracoes\": [\n";
+    bool firstIter = true;
+    for (const auto &par : resultado.second) {
+        if (!firstIter) arquivo << ",\n";
+        firstIter = false;
+        
+        arquivo << "    {\n";
+        arquivo << "      \"iteracao\": " << par.first << ",\n";
+        arquivo << "      \"valores\": [";
+        for (size_t i = 0; i < par.second.size(); ++i) {
+            arquivo << par.second[i];
+            if (i < par.second.size() - 1) arquivo << ", ";
+        }
+        arquivo << "]\n";
+        arquivo << "    }";
+    }
+    arquivo << "\n  ],\n";
+
+    // Vetor de deslocamentos
+    arquivo << "  \"deslocamentos\": [";
+    const vector<double>& deslocamentos = resultado.second.at(resultado.first);
+    for (size_t i = 0; i < deslocamentos.size(); ++i) {
+        arquivo << deslocamentos[i];
+        if (i < deslocamentos.size() - 1) arquivo << ", ";
+    }
+    arquivo << "]\n";
+
+    // Fechamento do JSON
+    arquivo << "}\n";
+
+    arquivo.close();
+    cout << "\nArquivo 'resultado.json' salvo com sucesso.\n";
+}
+
 
 void receber_entrada(int &n, vector<vector<double>> &A, vector<double> &b, double &epsilon){
     cout << "Digite a quantidade de deslocamentos(d1,d2,...,dn): ";
@@ -100,6 +162,7 @@ int main() {
     
     cout << "\nVetor de deslocamentos {d}:\n";
     imprimirVetor(resultado.second[resultado.first]);
+    imprimirJSON(Ainv, resultado);
     
 
 

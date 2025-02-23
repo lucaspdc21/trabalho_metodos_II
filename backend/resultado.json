@@ -1,0 +1,73 @@
+{
+  "Ainv": [
+    [0.4, -0.199998],
+    [-0.199999, 0.599997]
+  ],
+  "iteracoes": [
+    {
+      "iteracao": 0,
+      "valores": [-0.199994, 0.599994]
+    },
+    {
+      "iteracao": 1,
+      "valores": [2.8, 4.1]
+    },
+    {
+      "iteracao": 2,
+      "valores": [1.63333, 2.6]
+    },
+    {
+      "iteracao": 3,
+      "valores": [2.13333, 3.18333]
+    },
+    {
+      "iteracao": 4,
+      "valores": [1.93889, 2.93333]
+    },
+    {
+      "iteracao": 5,
+      "valores": [2.02222, 3.03056]
+    },
+    {
+      "iteracao": 6,
+      "valores": [1.98981, 2.98889]
+    },
+    {
+      "iteracao": 7,
+      "valores": [2.0037, 3.00509]
+    },
+    {
+      "iteracao": 8,
+      "valores": [1.9983, 2.99815]
+    },
+    {
+      "iteracao": 9,
+      "valores": [2.00062, 3.00085]
+    },
+    {
+      "iteracao": 10,
+      "valores": [1.99972, 2.99969]
+    },
+    {
+      "iteracao": 11,
+      "valores": [2.0001, 3.00014]
+    },
+    {
+      "iteracao": 12,
+      "valores": [1.99995, 2.99995]
+    },
+    {
+      "iteracao": 13,
+      "valores": [2.00002, 3.00002]
+    },
+    {
+      "iteracao": 14,
+      "valores": [1.99999, 2.99999]
+    },
+    {
+      "iteracao": 15,
+      "valores": [2, 3]
+    }
+  ],
+  "deslocamentos": [2, 3]
+}
