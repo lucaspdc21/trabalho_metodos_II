@@ -3,10 +3,6 @@
 Antes de rodar o projeto, certifique-se de ter os seguintes softwares instalados:
 - **Compilador C++ compatível com C++11 ou superior**
 - **Make** (para compilar o programa em C++)
-- **Dependências para o programa em C++:**
-  ```sh
-  sudo apt install nlohmann-json3-dev
-  ```
 - (Opcional, apenas se quiser rodar a interface web)
 - **Docker e Docker Compose** (https://docs.docker.com/)
 

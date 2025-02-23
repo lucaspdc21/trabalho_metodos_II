@@ -12,6 +12,7 @@ const TableWrapper = styled(Flex)`
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     gap: 20px;
+    min-width: 50vw;
 `;
 
 const MatrixContainer = styled(Flex)`
@@ -60,6 +61,7 @@ const LeftBracket = styled.div`
     top: 0;
     bottom: 0;
     width: 10px;
+    height: 100%;
     border-left: 2px solid #333;
     border-top: 2px solid #333;
     border-bottom: 2px solid #333;
@@ -139,7 +141,7 @@ const TableComponent = () => {
                 </MatrixContent>
             </MatrixContainer>
             <Flex style={{color: "white", fontFamily: "sans-serif", fontSize:"30px"}}>Iterações</Flex>
-            <Table columns={columns} dataSource={data} loading={loading} />
+            <Table columns={columns} dataSource={data} loading={loading} style={{minWidth: "70%"}} />
         </TableWrapper>
     );
 };
